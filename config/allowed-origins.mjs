@@ -1,0 +1,1 @@
+export const allowedOrigins = ['http://localhost:5173', 'https://beat-education.vercel.app']
