@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const questionTypeSchema = new mongoose.Schema({
     type: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     }
 })
 

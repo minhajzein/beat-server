@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const streamSchema = new mongoose.Schema({
     stream: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     }
 })
 

@@ -12,7 +12,7 @@ export const login = async (req, res) => {
         const admin = await Admin.findOne({ email: email })
 
         if (admin) {
-            if (password == admin.password) {
+            if (await bcrypt.compare(password, admin.password)) {
                 const adminToken = jwt.sign(
                     {
                         'AdminInfo':
@@ -96,7 +96,7 @@ export const refresh = async (req, res) => {
 export const logout = async (req, res) => {
     try {
         const cookies = req.cookies
-        if (!cookies?.jwt) return res.sendStatus(204) //No content
+        if (!cookies?.admin) return res.sendStatus(204) //No content
         res.clearCookie('admin', {
             httpOnly: true,
             sameSite: 'None',

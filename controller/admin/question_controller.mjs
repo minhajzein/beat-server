@@ -2,8 +2,6 @@ import Question from '../../models/question_model.mjs'
 
 export const createQuestion = async (req, res) => {
     try {
-        console.log(req.body);
-
         await Question.create({
             question: req.body.question,
             questionType: req.body.questionType,
