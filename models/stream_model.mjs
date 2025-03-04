@@ -4,9 +4,10 @@ const streamSchema = new mongoose.Schema({
     stream: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        lowercase: false
     }
-})
+}, { collation: { locale: "en", strength: 2 } })
 
 
 const streamModel = mongoose.model('Stream', streamSchema)

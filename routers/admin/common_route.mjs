@@ -3,9 +3,12 @@ import { createQuestionType, getAllQuestionTypes } from "../../controller/admin/
 import { createStream, getAllStreams } from "../../controller/admin/stream_controller.mjs";
 import { createCourse, getAllCourses } from "../../controller/admin/course_controller.mjs";
 import { createQuestion, getAllQuestions } from "../../controller/admin/question_controller.mjs";
+import { dashboard } from "../../controller/admin/home_controller.mjs";
 
 const router = Router()
 
+// Dashboard
+router.get('/dashboard', dashboard)
 
 // Questions
 router.route('/questions')

@@ -1,6 +1,7 @@
 import Question from '../../models/question_model.mjs'
 import Result from '../../models/result_model.mjs'
 import Course from '../../models/course_model.mjs'
+import Student from '../../models/user_model.mjs'
 
 
 export const getTestQuestions = async (req, res) => {
@@ -9,15 +10,18 @@ export const getTestQuestions = async (req, res) => {
         res.status(200).json(questions)
     } catch (error) {
         console.log(error);
+        res.send({ success: false, message: 'Internal server error' })
     }
 }
 
 export const createResult = async (req, res) => {
     try {
         await Result.create(req.body)
+        await Student.findByIdAndUpdate(req.body.studentId, { status: 'submitted' })
         res.send({ success: true })
     } catch (error) {
         console.log(error);
+        res.send({ success: false, message: 'Internal server error' })
     }
 }
 
@@ -50,5 +54,6 @@ export const getResult = async (req, res) => {
         res.status(200).json({ stream: suitableStream, courses })
     } catch (error) {
         console.log(error);
+        res.send({ success: false, message: 'Internal server error' })
     }
 }

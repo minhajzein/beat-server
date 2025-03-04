@@ -51,6 +51,7 @@ export const login = async (req, res) => {
     }
     catch (error) {
         console.log(error);
+        res.send({ success: false, message: 'Internal server error' })
     }
 }
 
@@ -90,6 +91,7 @@ export const refresh = async (req, res) => {
             }))
     } catch (error) {
         console.log(error);
+        res.send({ success: false, message: 'Internal server error' })
     }
 }
 
@@ -104,5 +106,6 @@ export const logout = async (req, res) => {
         }).json({ success: true })
     } catch (error) {
         console.log(error);
+        res.send({ success: false, message: 'Internal server error' })
     }
 }

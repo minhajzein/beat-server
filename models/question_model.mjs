@@ -14,7 +14,7 @@ const questionSchema = new mongoose.Schema({
         type: Array,
         required: true
     }
-})
+}, { timestamps: true })
 
 const questionModel = mongoose.model('Question', questionSchema)
 

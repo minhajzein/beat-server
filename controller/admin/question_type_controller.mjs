@@ -7,6 +7,7 @@ export const createQuestionType = async (req, res) => {
         res.send({ success: true, message: 'Question Type Created Successfully' })
     } catch (error) {
         console.log(error);
+        res.send({ success: false, message: 'Internal server error' })
     }
 }
 
@@ -17,5 +18,6 @@ export const getAllQuestionTypes = async (req, res) => {
         res.status(200).json(questionTypes)
     } catch (error) {
         console.log(error);
+        res.send({ success: false, message: 'Internal server error' })
     }
 }

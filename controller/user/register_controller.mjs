@@ -7,5 +7,6 @@ export const register = async (req, res) => {
         res.send({ success: true, studentId: student._id })
     } catch (error) {
         console.log(error);
+        res.send({ success: false, message: 'Internal server error' })
     }
 }
