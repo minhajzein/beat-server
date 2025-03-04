@@ -2,7 +2,7 @@ import Course from '../../models/course_model.mjs'
 
 export const createCourse = async (req, res) => {
     try {
-        const courses = await find({ name: req.body.name })
+        const courses = await Course.find({ name: req.body.name })
         if (courses.length > 0) return res.send({ success: false, message: 'Course already exists' })
         await Course.create(req.body)
         res.send({ success: true })
