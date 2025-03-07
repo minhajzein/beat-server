@@ -16,26 +16,10 @@ export const getTestQuestions = async (req, res) => {
 
 export const createResult = async (req, res) => {
     try {
-        await Result.create(req.body)
-        await Student.findByIdAndUpdate(req.body.studentId, { status: 'submitted' })
-        res.send({ success: true })
-    } catch (error) {
-        console.log(error);
-        res.send({ success: false, message: 'Internal server error' })
-    }
-}
-
-export const getResult = async (req, res) => {
-    try {
-        const studentResult = await Result.findOne({ studentId: req.params.studentId });
-        if (!studentResult) {
-            return res.send({ success: false, message: "No results found for this student." });
-        }
-        const answerIds = studentResult.result.map((res) => res.answerId);
+        const answerIds = req.body.result.map((res) => res.answerId);
         const questions = await Question.find({
             "answers.id": { $in: answerIds },
         });
-
         let streamCount = {};
 
         questions.forEach((question) => {
@@ -50,8 +34,24 @@ export const getResult = async (req, res) => {
         const suitableStream = Object.keys(streamCount).reduce((a, b) =>
             streamCount[a] > streamCount[b] ? a : b
         );
-        const courses = await Course.find({ relatedStreams: suitableStream })
-        res.status(200).json({ stream: suitableStream, courses })
+
+        await Result.create({ ...req.body, stream: suitableStream })
+        await Student.findByIdAndUpdate(req.body.studentId, { status: 'submitted' })
+        res.send({ success: true })
+    } catch (error) {
+        console.log(error);
+        res.send({ success: false, message: 'Internal server error' })
+    }
+}
+
+export const getResult = async (req, res) => {
+    try {
+        const studentResult = await Result.findOne({ studentId: req.params.studentId });
+        if (!studentResult) {
+            return res.send({ success: false, message: "No results found for this student." });
+        }
+        const courses = await Course.find({ relatedStreams: studentResult.stream })
+        res.status(200).json({ stream: studentResult.stream, courses })
     } catch (error) {
         console.log(error);
         res.send({ success: false, message: 'Internal server error' })

@@ -22,6 +22,10 @@ const resultSchema = new mongoose.Schema({
     timeTook: {
         type: String,
         required: true
+    },
+    stream: {
+        type: String,
+        required: true
     }
 }, { timestamps: true })
 
