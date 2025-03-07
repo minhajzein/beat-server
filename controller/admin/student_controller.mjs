@@ -22,3 +22,18 @@ export const deleteResponse = async (req, res) => {
         res.send({ success: false, message: 'Internal server error' })
     }
 }
+
+export const getProfile = async (req, res) => {
+    try {
+        const student = await Student.findOne({ _id: req.params.id })
+        const result = await Result.find({ studentId: req.params.id })
+            .populate("result.questionId", "question answers");
+
+        if (!result || result.length === 0) return res.send({ success: false, message: "No results found" });
+
+        res.send({ success: true, result, student })
+    } catch (error) {
+        console.log(error);
+        res.send({ success: false, message: 'Internal server error' })
+    }
+} 

@@ -10,10 +10,20 @@ const questionSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    answers: {
-        type: Array,
-        required: true
-    }
+    answers: [{
+        id: {
+            type: String,
+            required: true
+        },
+        answer: {
+            type: String,
+            required: true
+        },
+        stream: {
+            type: String,
+            required: true
+        }
+    }]
 }, { timestamps: true })
 
 const questionModel = mongoose.model('Question', questionSchema)
