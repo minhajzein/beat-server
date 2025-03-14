@@ -2,12 +2,30 @@ import Question from '../../models/question_model.mjs'
 import Result from '../../models/result_model.mjs'
 import Course from '../../models/course_model.mjs'
 import Student from '../../models/user_model.mjs'
+import QuestionType from '../../models/question_type_model.mjs'
 
 
 export const getTestQuestions = async (req, res) => {
     try {
-        const questions = await Question.find()
-        res.status(200).json(questions)
+        // Define the types
+        const questionTypes = await QuestionType.find();
+
+        // Fetch questions with required limits
+        const questions = await Promise.all([
+            Question.aggregate([{ $match: { questionType: questionTypes[0].type } }, { $sample: { size: 10 } }]),
+            Question.aggregate([{ $match: { questionType: questionTypes[1].type } }, { $sample: { size: 5 } }]),
+            Question.aggregate([{ $match: { questionType: questionTypes[2].type } }, { $sample: { size: 5 } }])
+        ]);
+
+        // Flatten the array
+        let allQuestions = questions.flat();
+
+        // Shuffle answers for each question
+        allQuestions = allQuestions.map(question => ({
+            ...question,
+            answers: question.answers.sort(() => Math.random() - 0.5) // Shuffle answers
+        }));
+        res.status(200).json(allQuestions)
     } catch (error) {
         console.log(error);
         res.send({ success: false, message: 'Internal server error' })
