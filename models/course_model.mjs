@@ -11,7 +11,7 @@ const courseSchema = new mongoose.Schema({
         type: Array,
         required: true
     }
-}, { collation: { locale: "en", strength: 2 } })
+}, { collation: { locale: "en", strength: 2 }, timestamps: true })
 
 const courseModel = mongoose.model('Course', courseSchema)
 

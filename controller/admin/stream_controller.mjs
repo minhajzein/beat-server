@@ -15,7 +15,7 @@ export const createStream = async (req, res) => {
 
 export const getAllStreams = async (req, res) => {
     try {
-        const streams = await Stream.find()
+        const streams = await Stream.find().sort({ createdAt: -1 })
         res.status(200).json(streams)
     } catch (error) {
         console.log(error);
